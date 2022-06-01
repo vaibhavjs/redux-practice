@@ -1,11 +1,21 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { todoActions } from "../store";
 
 const AddTodoForm = () => {
   const [value, setValue] = useState("");
+  const dispatch = useDispatch();
 
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log("user entered: " + value);
+
+    const todoObj = {
+      id: Date.now(),
+      title: value,
+      completed: false,
+    };
+
+    dispatch(todoActions.addTodo(todoObj));
   };
 
   return (
@@ -14,7 +24,7 @@ const AddTodoForm = () => {
       <input
         type="text"
         className="form-control mb-2 mr-sm-2"
-        placeholder="Add todo..."
+        placeholder="Add a todo..."
         value={value}
         onChange={(event) => setValue(event.target.value)}
       ></input>
